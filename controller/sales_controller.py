@@ -1,13 +1,18 @@
-from model.sales import sales
+import model.sales.sales as sales
 from view import terminal as view
 
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    view.print_table([sales.HEADERS, *sales.SALES])
 
 
 def add_transaction():
-    view.print_error_message("Not implemented yet.")
+    view.print_message("New transaction: ")
+    transaction = [sales.util.generate_id()]
+    view.print_message(f"{sales.HEADERS[0]}: {transaction[0]}")
+    transaction.extend(view.get_inputs(sales.HEADERS[1:]))
+    sales.SALES.append(transaction)
+    sales.data_manager.write_table_to_file(sales.DATAFILE, sales.SALES)
 
 
 def update_transaction():
@@ -68,6 +73,7 @@ def display_menu():
                "Count number of transactions between",
                "Sum the price of transactions between"]
     view.print_menu("Sales", options)
+
 
 
 def menu():

@@ -1,17 +1,7 @@
 def print_menu(title, list_options):
-    """Prints options in standard menu format like this:
-
-    Main menu:
-    (1) Store manager
-    (2) Human resources manager
-    (3) Inventory manager
-    (0) Exit program
-
-    Args:
-        title (str): the title of the menu (first row)
-        list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
-    """
-    pass
+    print(f"{title}:")
+    for index in range(len(list_options)):
+        print(f"({index + 1}) {list_options[index]}")
 
 
 def print_message(message):
@@ -20,7 +10,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):
@@ -32,20 +22,22 @@ def print_general_results(result, label):
     pass
 
 
-# /--------------------------------\
-# |   id   |   product  |   type   |
-# |--------|------------|----------|
-# |   0    |  Bazooka   | portable |
-# |--------|------------|----------|
-# |   1    | Sidewinder | missile  |
-# \-----------------------------------/
 def print_table(table):
-    """Prints tabular data like above.
-
-    Args:
-        table: list of lists - the table to print out
-    """
-    pass
+    break_line = "|" + "".join([
+        "-" * 14 + "|" if len(table[0][i]) % 2 == 0
+        else "-" * 15 + "|"
+        for i in range(len(table[0]))
+    ])
+    dashes = "-" * (len(break_line) - 2)
+    print(f"/{dashes}\\")
+    for row in table:
+        print_row = "|" + "".join([
+            "{:^14}|".format(result) if len(table[0][row.index(result)]) % 2 == 0
+            else "{:^15}|".format(result)
+            for result in row
+        ])
+        print(print_row)
+        print(break_line if row != table[-1] else f"\\{dashes}/")
 
 
 def get_input(label):
@@ -54,7 +46,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    pass
+    return input(f"{label}: ")
 
 
 def get_inputs(labels):
@@ -63,7 +55,8 @@ def get_inputs(labels):
     Args:
         labels: list - the list of the labels to be displayed before each prompt
     """
-    pass
+    return [input(f"{label}: ") for label in labels]
+
 
 
 def print_error_message(message):
@@ -72,4 +65,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(f"ERROR OCCURED\n{message}")
