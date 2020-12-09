@@ -1,5 +1,6 @@
 import random
 import string
+import os
 
 
 def generate_id(number_of_small_letters=4,
@@ -15,3 +16,7 @@ def generate_id(number_of_small_letters=4,
     ]
     random.shuffle(generated_id)
     return "".join(generated_id)
+
+
+def clear_screen():
+    return os.system("cls || clear")

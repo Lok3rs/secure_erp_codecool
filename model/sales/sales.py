@@ -10,7 +10,7 @@ Data table structure:
 
 from model import data_manager, util
 
-DATAFILE = "../model/sales/sales.csv"
+DATAFILE = "model/sales/sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 SALES = data_manager.read_table_from_file(DATAFILE)
