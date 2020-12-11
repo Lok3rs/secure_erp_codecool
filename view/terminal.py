@@ -1,26 +1,11 @@
 def print_menu(title, list_options):
-    """Prints options in standard menu format like this:
-
-    Main menu:
-    (1) Store manager
-    (2) Human resources manager
-    (3) Inventory manager
-    (0) Exit program
-
-    Args:
-        title (str): the title of the menu (first row)
-        list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
-    """
-    pass
+    print(f"{title}:")
+    for index in range(len(list_options)):
+        print(f"({index + 1}) {list_options[index]}")
 
 
 def print_message(message):
-    """Prints a single message to the terminal.
-
-    Args:
-        message: str - the message
-    """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):
@@ -32,44 +17,46 @@ def print_general_results(result, label):
     pass
 
 
-# /--------------------------------\
-# |   id   |   product  |   type   |
-# |--------|------------|----------|
-# |   0    |  Bazooka   | portable |
-# |--------|------------|----------|
-# |   1    | Sidewinder | missile  |
-# \-----------------------------------/
 def print_table(table):
-    """Prints tabular data like above.
+    space_around = 2
+    column_separator = "|"
+    row_separator = "-"
+    corner_ac = "/"
+    corner_bd = "\\"
+    max_column_width = [0 for element in range(len(table[0]))]
 
-    Args:
-        table: list of lists - the table to print out
-    """
-    pass
+    for row in table:
+        for result_index in range(len(row)):
+            max_column_width[result_index] = len(row[result_index]) + space_around \
+                if max_column_width[result_index] - space_around < len(row[result_index]) \
+                else max_column_width[result_index]
+
+    break_line = column_separator + column_separator.join(
+        [(row_separator * max_width) for max_width in max_column_width]) + column_separator
+    start_line = corner_ac + row_separator.join(
+        [(row_separator * max_width) for max_width in max_column_width]) + corner_bd
+    end_line = corner_bd + row_separator.join(
+        [(row_separator * max_width) for max_width in max_column_width]) + corner_ac
+
+    print(start_line)
+    for row in table:
+        printable_row = []
+        for each_result in row:
+            white_spaces = max_column_width[row.index(each_result)] - len(each_result)
+            printable_row.append((white_spaces // 2 * " " if white_spaces % 2 == 0
+                                  else (white_spaces // 2 + 1) * " ") + each_result +
+                                 (white_spaces // 2) * " ")
+        print(column_separator + column_separator.join(printable_row) + column_separator)
+        print(break_line if row != table[-1] else end_line)
 
 
 def get_input(label):
-    """Gets single string input from the user.
-
-    Args:
-        label: str - the label before the user prompt
-    """
-    pass
+    return input(f"{label}: ")
 
 
 def get_inputs(labels):
-    """Gets a list of string inputs from the user.
-
-    Args:
-        labels: list - the list of the labels to be displayed before each prompt
-    """
-    pass
+    return [input(f"{label}: ") for label in labels]
 
 
 def print_error_message(message):
-    """Prints an error message to the terminal.
-
-    Args:
-        message: str - the error message
-    """
-    pass
+    print(f"ERROR OCCURED:\n{message}")

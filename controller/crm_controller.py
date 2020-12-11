@@ -1,32 +1,57 @@
 from model.crm import crm
 from view import terminal as view
 
+# HEADERS = ["id", "name", "email", "subscribed"]
+customers = crm.data_manager.read_table_from_file(crm.DATAFILE)
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
-
+    print()
+    customers.insert(0, crm.HEADERS)
+    view.print_table(customers)
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
-
+    new_customer = view.get_inputs(['Name', 'Email', 'Subscribed'])
+    new_customer.insert(0, crm.util.generate_id())
+    customers.append(new_customer)
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    # pF5v4wG_e_
+    search_id = view.get_input('Id')
+    for customer in customers:
+        if customer[0] == search_id:
+            new_data = view.get_inputs(['Name', 'Email', 'Subscribed'])
+            new_data.insert(0, search_id)
+            customers[customers.index(customer)] = new_data
+            return
+    view.print_error_message("Id does not exist. \n")
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    search_id = view.get_input('Id')
+    for customer in customers:
+        if customer[0] == search_id:
+            customers.remove(customer)
+            return
+    view.print_error_message("Id does not exist. \n")
 
 
 def get_subscribed_emails():
-    view.print_error_message("Not implemented yet.")
+    sub_email = []
+    print("\nSubscribers emails:")
+    for customer in customers:
+        if int(customer[3]) == 1:
+            sub_email.append(customer[2])
+            print(customer[2])
+    print()
+
+    return sub_email
 
 
 def run_operation(option):
     if option == 1:
-        list_customers()
-    elif option == 2:
         add_customer()
+    elif option == 2:
+        list_customers()
     elif option == 3:
         update_customer()
     elif option == 4:
@@ -41,8 +66,8 @@ def run_operation(option):
 
 def display_menu():
     options = ["Back to main menu",
-               "List customers",
                "Add new customer",
+               "List customers",
                "Update customer",
                "Remove customer",
                "Subscribed customer emails"]
