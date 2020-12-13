@@ -20,3 +20,7 @@ def generate_id(number_of_small_letters=4,
 
 def clear_screen():
     return os.system("cls || clear")
+
+
+def wait():
+    input("Type ENTER to continue...")

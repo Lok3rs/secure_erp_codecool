@@ -9,10 +9,13 @@ def list_customers():
     customers.insert(0, crm.HEADERS)
     view.print_table(customers)
 
+
 def add_customer():
     new_customer = view.get_inputs(['Name', 'Email', 'Subscribed'])
     new_customer.insert(0, crm.util.generate_id())
     customers.append(new_customer)
+    return new_customer
+
 
 def update_customer():
     # pF5v4wG_e_

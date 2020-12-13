@@ -1,5 +1,9 @@
 from model import util
 
+date_year_index = 0
+date_month_index = 1
+date_day_index = 2
+
 
 def print_menu(title, list_options):
     util.clear_screen()
@@ -61,7 +65,31 @@ def get_input(label):
 
 
 def get_inputs(labels):
-    return [input(f"{label}: ") for label in labels]
+    answers = []
+    for label in labels:
+        validate = False
+        while not validate:
+            answer = get_input(label)
+            if label == "Customer" and len(answer) != 8:
+                print_error_message("Customer ID has to be 8 chars long.")
+                continue
+            elif label == "Price":
+                try:
+                    float(answer)
+                except ValueError:
+                    print_error_message("Price needs to be a number. Floating number has to be separated by a dot.")
+                    continue
+            elif label == "Date":
+                date_split = answer.split("-")
+                if len(date_split) != 3 or not date_split[date_year_index].isnumeric() or int(date_split[date_year_index]) < 0 \
+                        or not date_split[date_month_index].isnumeric() or not date_split[date_day_index].isnumeric() \
+                        or int(date_split[date_month_index]) not in range(1, 13) \
+                        or int(date_split[date_day_index]) not in range(1, 32):
+                    print_error_message("Wrong date provided. Has to be in format YYYY-MM-DD")
+                    continue
+            answers.append(answer)
+            validate = True
+    return answers
 
 
 def print_error_message(message):
