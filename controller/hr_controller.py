@@ -3,19 +3,26 @@ from view import terminal as view
 
 
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    table = hr.list_employees()
+    view.print_table(table)
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    new_employee = view.get_inputs([hr.HEADERS[hr.NAME_INDEX], hr.HEADERS[hr.DATE_OF_BIRTH_INDEX], hr.HEADERS[hr.DEPARTMENT_INDEX], hr.HEADERS[hr.CLEARANCE_INDEX]])
+    hr.add_employee(new_employee)
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    list_employees()
+    updated_employee_name = view.get_input(hr.HEADERS[hr.NAME_INDEX])
+    updated_employee_data = view.get_inputs([hr.HEADERS[hr.NAME_INDEX], hr.HEADERS[hr.DATE_OF_BIRTH_INDEX], hr.HEADERS[hr.DEPARTMENT_INDEX], hr.HEADERS[hr.CLEARANCE_INDEX]])
+    hr.update_employee(updated_employee_name, updated_employee_data)
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    list_employees()
+    deleted_employee_name = view.get_input(hr.HEADERS[hr.NAME_INDEX])
+    hr.delete_employee(deleted_employee_name)
 
 
 def get_oldest_and_youngest():
@@ -31,11 +38,14 @@ def next_birthdays():
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    celearance_level = int(view.get_input("Clearance level"))
+    hr.count_employees_with_clearance(celearance_level)
+    view.print_message(hr.count_employees_with_clearance(celearance_level))
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    hr.count_employees_per_department()
+    view.print_message(hr.count_employees_per_department())
 
 
 def run_operation(option):
