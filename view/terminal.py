@@ -6,7 +6,7 @@ date_day_index = 2
 
 
 def print_menu(title, list_options):
-    util.clear_screen()
+    #util.clear_screen()
     list_options.append(list_options.pop(0))
     print(f"{title}:")
     for index in range(len(list_options)):

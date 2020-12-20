@@ -1,54 +1,52 @@
 from model.crm import crm
 from view import terminal as view
 
-# HEADERS = ["id", "name", "email", "subscribed"]
-customers = crm.data_manager.read_table_from_file(crm.DATAFILE)
+HEADERS = ["id", "name", "email", "subscribed"]
+
+ID_INDEX = 0
+ID_NAME = 1
 
 def list_customers():
-    print()
-    customers.insert(0, crm.HEADERS)
-    view.print_table(customers)
+    temp_customers = crm.list_of_customers()
+    temp_customers.insert(0, HEADERS)
+    view.print_table(temp_customers)
 
 
 def add_customer():
     new_customer = view.get_inputs(['Name', 'Email', 'Subscribed'])
-    new_customer.insert(0, crm.util.generate_id())
-    customers.append(new_customer)
-    return new_customer
+    if validate_email(new_customer[ID_NAME]):
+        crm.add_customer(new_customer)
+    else:
+        view.print_error_message("Wrong email.")
 
+def validate_email(email):
+    email_split = email.split("@")
+    return len(email_split) == 2 and "." in email_split[1]
 
 def update_customer():
-    # pF5v4wG_e_
+
     search_id = view.get_input('Id')
-    for customer in customers:
-        if customer[0] == search_id:
-            new_data = view.get_inputs(['Name', 'Email', 'Subscribed'])
-            new_data.insert(0, search_id)
-            customers[customers.index(customer)] = new_data
-            return
-    view.print_error_message("Id does not exist. \n")
+    if crm.if_customer_exists(search_id):
+        print("Give the new data.")
+        new_data = view.get_inputs(['Name', 'Email', 'Subscribed'])
+        crm.update_customer(new_data)
+    else:
+        view.print_error_message("Id does not exist. \n")
 
 
 def delete_customer():
     search_id = view.get_input('Id')
-    for customer in customers:
-        if customer[0] == search_id:
-            customers.remove(customer)
-            return
-    view.print_error_message("Id does not exist. \n")
+    if crm.delete_customer(search_id):
+        view.print_message('Deletion was successfull.')
+    else:
+        view.print_error_message("Id does not exist. \n")
 
 
 def get_subscribed_emails():
-    sub_email = []
     print("\nSubscribers emails:")
-    for customer in customers:
-        if int(customer[3]) == 1:
-            sub_email.append(customer[2])
-            print(customer[2])
+    for email in crm.get_subscribed_emails():
+        print(email)
     print()
-
-    return sub_email
-
 
 def run_operation(option):
     if option == 1:
