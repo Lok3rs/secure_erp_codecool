@@ -1,6 +1,6 @@
 from model.hr import hr
 from view import terminal as view
-
+from model import util
 
 def list_employees():
     view.print_message("List of employees:\n")
@@ -99,7 +99,10 @@ def menu():
     while operation != '0':
         display_menu()
         try:
-            operation = view.get_input("Select an operation")
-            run_operation(int(operation))
+            operation = int(view.get_input("Select an operation"))
+            util.clear_screen()
+            run_operation(operation)
+            util.wait() if operation != 0 else None
         except KeyError as err:
             view.print_error_message(err)
+            util.wait()
