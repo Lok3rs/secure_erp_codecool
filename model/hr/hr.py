@@ -31,25 +31,32 @@ def add_employee(new_employee):
     data_manager.write_table_to_file(DATAFILE, new_table, ";")
 
 
-def update_employee(updated_employee_name, updated_employee_data):
+def update_employee(updated_employee_id, updated_employee_data):
     new_table = data_manager.read_table_from_file(DATAFILE)
     for employee in new_table:
-        if employee[NAME_INDEX] == updated_employee_name:
+        if employee[ID_INDEX] == updated_employee_id:
             updated_employee_data.insert(0, employee[ID_INDEX])
             new_table[new_table.index(employee)] = updated_employee_data
     data_manager.write_table_to_file(DATAFILE, new_table, ";")
 
 
-def delete_employee(deleted_employee_name):
+def delete_employee(deleted_employee_id):
     new_table = data_manager.read_table_from_file(DATAFILE)
     for employee in new_table:
-        if employee[NAME_INDEX] == deleted_employee_name:
+        if employee[ID_INDEX] == deleted_employee_id:
             new_table.pop(new_table.index(employee))
     data_manager.write_table_to_file(DATAFILE, new_table, ";")
 
 
 def get_oldest_and_youngest():
-    pass
+    table = data_manager.read_table_from_file(DATAFILE)
+    date_of_birth_list = []
+    for employee in table:
+        date_split = [int(i) for i in employee[DATE_OF_BIRTH_INDEX].split("-")]
+        date_of_birth_list.append(date_split)
+    oldest_date_of_birth_index = date_of_birth_list.index(min(date_of_birth_list))
+    youngest_date_of_birth_index = date_of_birth_list.index(max(date_of_birth_list))
+    return (table[oldest_date_of_birth_index][NAME_INDEX], table[youngest_date_of_birth_index][NAME_INDEX])
 
 
 def get_average_age():
